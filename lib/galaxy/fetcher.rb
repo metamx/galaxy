@@ -14,7 +14,7 @@ module Galaxy
             @log.info("Fetching #{core_url} into #{tmp}")
             if @base =~ /^https?:/
                 begin
-                    curl_command = "curl -D - #{core_url} -o #{tmp} -s"
+                    curl_command = "curl -D -L - #{core_url} -o #{tmp} -s"
                     if !@http_user.nil? && !@http_password.nil?
                       curl_command << " -u #{@http_user}:#{@http_password}"
                     end
