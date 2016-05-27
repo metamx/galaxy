@@ -80,6 +80,7 @@ spec = Gem::Specification.new do |s|
   s.add_dependency("json", ">= 1.5.1")
   s.add_dependency("mongrel", ">= 1.1.5")
   s.add_dependency("rcov", ">= 0.9.9")
+  s.add_dependency("aws-sdk", ">= 2")
 end
 
 Rake::GemPackageTask.new(spec) do |pkg|
