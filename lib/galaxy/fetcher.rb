@@ -30,6 +30,15 @@ module Galaxy
                 unless response_code == '200'
                     raise "Failed to download archive #{core_url}: #{status}"
                 end
+            elsif @base =~ /^s3:/
+                begin
+                    awscli_command = "aws s3 cp #{core_url} #{tmp}"
+
+                    @log.debug("Running awscli command: #{awscli_command}")
+                    output = Galaxy::HostUtils.system(awscli_command)
+                rescue Galaxy::HostUtils::CommandFailedError => e
+                    raise "Failed to download archive #{core_url}: #{e.message}"
+                end
             else
                 open(core_url) do |io|
                     File.open(tmp, "w") { |f| f.write(io.read) }
