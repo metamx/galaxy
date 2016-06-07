@@ -1,7 +1,6 @@
 require 'galaxy/temp'
 require 'galaxy/host'
 require 'uri'
-require 'aws-sdk'
 
 module Galaxy
     class Fetcher
@@ -30,20 +29,6 @@ module Galaxy
                 (protocol, response_code, response_message) = status.split
                 unless response_code == '200'
                     raise "Failed to download archive #{core_url}: #{status}"
-                end
-            elsif @base =~ /^s3:/
-                begin
-                    s3uri = URI(core_url)
-                    File.open(tmp, "wb") do |file|
-                        Aws::S3::Client.new(region: 'us-east-1') do |s3|
-                            response = s3.get_bucket_location(bucket: s3uri.host)
-                            s3_region = response.data.location_constraint
-                        end
-                        Aws::S3::Client.new(region: s3_region) do |s3|
-                            response = s3.get_object({bucket:s3uri.host, key:s3uri.path},
-                                response_target: file)
-                        end
-                    end
                 end
             else
                 open(core_url) do |io|
