@@ -11,3 +11,5 @@ pkg/
 coverage/
 target/
 .rakeTasks
+
+.idea/
