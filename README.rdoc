@@ -426,6 +426,8 @@ See:
 
 for more information.
 
+Use: ruby 1.9.3
+
 = License (see LICENSE-2.0.txt file for full license)
 
 Copyright 2010 Ning
