@@ -39,6 +39,15 @@ module Galaxy
                 rescue Galaxy::HostUtils::CommandFailedError => e
                     raise "Failed to download archive #{core_url}: #{e.message}"
                 end
+            elsif @base =~ /^gs:/
+                begin
+                    gsutil_command = "gsutil cp #{core_url} #{tmp}"
+
+                    @log.debug("Running gsutil command: #{gsutil_command}")
+                    output = Galaxy::HostUtils.system(gsutil_command)
+                rescue Galaxy::HostUtils::CommandFailedError => e
+                    raise "Failed to download archive #{core_url}: #{e.message}"
+                end
             else
                 open(core_url) do |io|
                     File.open(tmp, "w") { |f| f.write(io.read) }
