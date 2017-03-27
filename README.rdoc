@@ -426,7 +426,16 @@ See:
 
 for more information.
 
-Use: ruby 1.9.3
+Use: ruby 1.8.7 & rake 0.8.7
+
+
+  gem uninstall rake
+  gem install rake --version 0.8.7
+  rvm @global
+
+Generate the indexes for all the gems in the directory
+
+  gem generate_index
 
 = License (see LICENSE-2.0.txt file for full license)
 
