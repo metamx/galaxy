@@ -4,7 +4,8 @@ require 'tmpdir'
 require 'rake'
 require 'rake/testtask'
 require 'rake/clean'
-require 'rake/gempackagetask'
+#require 'rake/gempackagetask'
+require 'rubygems/package_task'
 require './lib/galaxy/version'
 begin
     require 'rcov/rcovtask'
@@ -16,7 +17,7 @@ end
 
 THIS_FILE = File.expand_path(__FILE__)
 PWD = File.dirname(THIS_FILE)
-RUBY = File.join(Config::CONFIG['bindir'], Config::CONFIG['ruby_install_name'])
+RUBY = File.join(RbConfig::CONFIG['bindir'], RbConfig::CONFIG['ruby_install_name'])
 
 PACKAGE_NAME = 'galaxy'
 PACKAGE_VERSION = Galaxy::Version
@@ -25,7 +26,7 @@ GEM_VERSION = PACKAGE_VERSION.split('-')[0]
 task :default => [:test]
 
 task :install do
-  sitelibdir = Config::CONFIG["sitelibdir"]
+  sitelibdir = RbConfig::CONFIG["sitelibdir"]
   cd 'lib' do
     for file in Dir["galaxy/*.rb", "galaxy/commands/*.rb" ]
       d = File.join(sitelibdir, file)
@@ -34,7 +35,7 @@ task :install do
     end
   end
 
-  bindir = Config::CONFIG["bindir"]
+  bindir = RbConfig::CONFIG["bindir"]
   cd 'bin' do
     for file in ["galaxy", "galaxy-agent", "galaxy-console" ]
       d = File.join(bindir, file)
@@ -82,11 +83,11 @@ spec = Gem::Specification.new do |s|
   s.add_dependency("rcov", ">= 0.9.9")
 end
 
-Rake::GemPackageTask.new(spec) do |pkg|
-  pkg.need_zip = false
-  pkg.tar_command = 'gtar' if RUBY_PLATFORM =~ /solaris/
-  pkg.need_tar = true
-end
+#Rake::GemPackageTask.new(spec) do |pkg|
+#  pkg.need_zip = false
+#  pkg.tar_command = 'gtar' if RUBY_PLATFORM =~ /solaris/
+#  pkg.need_tar = true
+#end
 
 namespace :run do
   desc "Run a Gonsole locally"
